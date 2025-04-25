@@ -37,6 +37,7 @@ const RAW_RUNTIME_STATE =
           ["eslint-plugin-vue", "virtual:7d6457be6b857bdb44066d1c6f9d2471ca71cf43c0df847ead5ae9289c5e9f98de3a67668fdd588c95fcb212da2ba4f12a34babd1f52380566b5d7bf44a88ca5#npm:10.0.0"],\
           ["jiti", "npm:2.4.2"],\
           ["npm-run-all2", "npm:7.0.2"],\
+          ["peerjs", "npm:1.5.4"],\
           ["pinia", "virtual:7d6457be6b857bdb44066d1c6f9d2471ca71cf43c0df847ead5ae9289c5e9f98de3a67668fdd588c95fcb212da2ba4f12a34babd1f52380566b5d7bf44a88ca5#npm:3.0.2"],\
           ["prettier", "npm:3.5.3"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
@@ -997,6 +998,15 @@ const RAW_RUNTIME_STATE =
           ["@jridgewell/trace-mapping", "npm:0.3.25"],\
           ["@jridgewell/resolve-uri", "npm:3.1.2"],\
           ["@jridgewell/sourcemap-codec", "npm:1.5.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@msgpack/msgpack", [\
+      ["npm:2.8.0", {\
+        "packageLocation": "../../../../AppData/Local/Yarn/Berry/cache/@msgpack-msgpack-npm-2.8.0-c4768c71d4-10c0.zip/node_modules/@msgpack/msgpack/",\
+        "packageDependencies": [\
+          ["@msgpack/msgpack", "npm:2.8.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -2107,6 +2117,7 @@ const RAW_RUNTIME_STATE =
           ["eslint-plugin-vue", "virtual:7d6457be6b857bdb44066d1c6f9d2471ca71cf43c0df847ead5ae9289c5e9f98de3a67668fdd588c95fcb212da2ba4f12a34babd1f52380566b5d7bf44a88ca5#npm:10.0.0"],\
           ["jiti", "npm:2.4.2"],\
           ["npm-run-all2", "npm:7.0.2"],\
+          ["peerjs", "npm:1.5.4"],\
           ["pinia", "virtual:7d6457be6b857bdb44066d1c6f9d2471ca71cf43c0df847ead5ae9289c5e9f98de3a67668fdd588c95fcb212da2ba4f12a34babd1f52380566b5d7bf44a88ca5#npm:3.0.2"],\
           ["prettier", "npm:3.5.3"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
@@ -2761,6 +2772,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../../../AppData/Local/Yarn/Berry/cache/esutils-npm-2.0.3-f865beafd5-10c0.zip/node_modules/esutils/",\
         "packageDependencies": [\
           ["esutils", "npm:2.0.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["eventemitter3", [\
+      ["npm:4.0.7", {\
+        "packageLocation": "../../../../AppData/Local/Yarn/Berry/cache/eventemitter3-npm-4.0.7-7afcdd74ae-10c0.zip/node_modules/eventemitter3/",\
+        "packageDependencies": [\
+          ["eventemitter3", "npm:4.0.7"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -3951,6 +3971,28 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["peerjs", [\
+      ["npm:1.5.4", {\
+        "packageLocation": "../../../../AppData/Local/Yarn/Berry/cache/peerjs-npm-1.5.4-b1f39eb912-10c0.zip/node_modules/peerjs/",\
+        "packageDependencies": [\
+          ["peerjs", "npm:1.5.4"],\
+          ["@msgpack/msgpack", "npm:2.8.0"],\
+          ["eventemitter3", "npm:4.0.7"],\
+          ["peerjs-js-binarypack", "npm:2.1.0"],\
+          ["webrtc-adapter", "npm:9.0.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["peerjs-js-binarypack", [\
+      ["npm:2.1.0", {\
+        "packageLocation": "../../../../AppData/Local/Yarn/Berry/cache/peerjs-js-binarypack-npm-2.1.0-59ed32add7-10c0.zip/node_modules/peerjs-js-binarypack/",\
+        "packageDependencies": [\
+          ["peerjs-js-binarypack", "npm:2.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["perfect-debounce", [\
       ["npm:1.0.0", {\
         "packageLocation": "../../../../AppData/Local/Yarn/Berry/cache/perfect-debounce-npm-1.0.0-0968810009-10c0.zip/node_modules/perfect-debounce/",\
@@ -4222,6 +4264,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../../../AppData/Local/Yarn/Berry/cache/safer-buffer-npm-2.1.2-8d5c0b705e-10c0.zip/node_modules/safer-buffer/",\
         "packageDependencies": [\
           ["safer-buffer", "npm:2.1.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["sdp", [\
+      ["npm:3.2.0", {\
+        "packageLocation": "../../../../AppData/Local/Yarn/Berry/cache/sdp-npm-3.2.0-b1a5f85233-10c0.zip/node_modules/sdp/",\
+        "packageDependencies": [\
+          ["sdp", "npm:3.2.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4955,6 +5006,16 @@ const RAW_RUNTIME_STATE =
         "packagePeers": [\
           "@types/typescript",\
           "typescript"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["webrtc-adapter", [\
+      ["npm:9.0.3", {\
+        "packageLocation": "../../../../AppData/Local/Yarn/Berry/cache/webrtc-adapter-npm-9.0.3-9d13b6cc5b-10c0.zip/node_modules/webrtc-adapter/",\
+        "packageDependencies": [\
+          ["webrtc-adapter", "npm:9.0.3"],\
+          ["sdp", "npm:3.2.0"]\
         ],\
         "linkType": "HARD"\
       }]\
