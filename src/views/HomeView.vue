@@ -6,7 +6,7 @@
     <p>准备好练习你的数学计算能力，或者与他人一决高下了吗？</p>
     <div class="actions">
       <router-link to="/practice" class="btn btn-dopamine">单人练习</router-link>
-      <router-link to="/pk" class="btn btn-dopamine">在线比赛</router-link>
+      <router-link to="/network-battle" class="btn btn-dopamine">在线比赛</router-link>
     </div>
   </div>
   </transition>
