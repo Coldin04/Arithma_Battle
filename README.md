@@ -157,5 +157,5 @@ ArithmaBattle/
 
 项目维护者: Coldin04 - https://co1d.in
 
-项目链接: [https://github.com/yourusername/ArithmaBattle](https://github.com/Coldin04/ArithmaBattle)
+项目链接: [https://github.com/Coldin04/ArithmaBattle](https://github.com/Coldin04/ArithmaBattle)
 
