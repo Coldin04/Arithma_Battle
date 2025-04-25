@@ -40,13 +40,14 @@
 
     <main v-if="isGameActive">
       <div class="players-info">
-        <div class="player local" :class="{ 'player-turn': localPlayerTurn }">
+        <div class="player local">
           <h3>我方</h3>
           <p class="score">得分: {{ localScore }}</p>
         </div>
-        <div class="player remote" :class="{ 'player-turn': !localPlayerTurn }">
+        <div class="player remote">
           <h3>对方</h3>
           <p class="score">得分: {{ remoteScore }}</p>
+          <p v-if="remoteIsAnswering" class="status">对方正在答题...</p>
         </div>
       </div>
 
@@ -55,8 +56,8 @@
         <input type="text" v-model="userAnswer" @keyup.enter="submitAnswer"
                :class="{'correct-answer': answerFeedback === 'correct',
                         'wrong-answer': answerFeedback === 'wrong'}"
-               :disabled="!isGameActive || !localPlayerTurn" />
-        <button @click="submitAnswer" :disabled="!isGameActive || !localPlayerTurn">提交答案</button>
+               :disabled="!isGameActive || waitingForNextQuestion" />
+        <button @click="submitAnswer" :disabled="!isGameActive || waitingForNextQuestion">提交答案</button>
       </section>
 
       <div class="feedback-container">
@@ -122,12 +123,15 @@ const userAnswer = ref<string>('');
 const timeLeft = ref<number>(30);
 const localScore = ref<number>(0);
 const remoteScore = ref<number>(0);
-const localPlayerTurn = ref<boolean>(true);
 const answerFeedback = ref<'none' | 'correct' | 'wrong'>('none');
 const lastCorrectAnswer = ref<string>('');
 const timerInterval = ref<number | null>(null);
 const gameMessage = ref<string>('');
 const gameMessageType = ref<string>('');
+const waitingForNextQuestion = ref<boolean>(false);
+const questionNumber = ref<number>(0);
+const remoteIsAnswering = ref<boolean>(false);
+const waitingForSettingsAck = ref<boolean>(false);
 
 // 生成结果信息
 const resultMessage = computed(() => {
@@ -206,7 +210,6 @@ function connectToPeer() {
     const conn = peer.value.connect(remotePeerId.value, {
       reliable: true
     });
-
     handleConnection(conn);
   } catch (error) {
     console.error('连接失败:', error);
@@ -222,11 +225,6 @@ function handleConnection(conn: DataConnection) {
     isConnected.value = true;
     connectionStatus.value = '连接成功!';
     showGameMessage('连接成功!', 'success');
-
-    // 如果是加入方，等待主机发送游戏设置
-    if (mode.value === 'join') {
-      localPlayerTurn.value = false;
-    }
   });
 
   conn.on('data', (data: any) => {
@@ -253,43 +251,70 @@ function handleConnection(conn: DataConnection) {
 function startGame() {
   if (!isConnected.value || !connection.value) return;
 
+  // 重置游戏状态
+  timeLeft.value = 30;
+  localScore.value = 0;
+  remoteScore.value = 0;
+  gameEnded.value = false;
+  waitingForNextQuestion.value = false;
+  questionNumber.value = 0;
+  remoteIsAnswering.value = false;
+
+  // 设置等待确认状态
+  waitingForSettingsAck.value = true;
+
+  // 显示等待消息
+  showGameMessage('正在等待对方准备...', 'info');
+
   // 发送游戏设置给对方
   connection.value.send({
     type: 'game-settings',
     difficulty: selectedDifficulty.value
   });
+}
 
-  // 开始倒计时
-  timeLeft.value = 30;
-  localScore.value = 0;
-  remoteScore.value = 0;
+// 实际开始游戏的函数
+function actuallyStartGame() {
+  // 设置游戏为活动状态
   isGameActive.value = true;
-  gameEnded.value = false;
-  localPlayerTurn.value = mode.value === 'host'; // 主机先手
+  waitingForSettingsAck.value = false;
 
-  // 生成第一题
-  generateNewQuestion();
 
   // 启动计时器
   startTimer();
 
   // 通知对方游戏已开始
-  connection.value.send({
-    type: 'game-started'
-  });
+  if (connection.value) {
+    connection.value.send({
+      type: 'game-started'
+    });
+  }
+
+  showGameMessage('游戏开始!', 'success');
+
+    // 主机生成第一题
+  if (mode.value === 'host') {
+    generateNewQuestion();
+  }
 }
 
 // 生成新题目
 function generateNewQuestion() {
   try {
     currentQuestion.value = generateQuestion(parseInt(selectedDifficulty.value));
+    questionNumber.value++;
+    waitingForNextQuestion.value = false;
+    userAnswer.value = '';
+    answerFeedback.value = 'none';
+    remoteIsAnswering.value = false;
 
-    // 如果自己是当前回合玩家，发送题目给对方
-    if (localPlayerTurn.value && connection.value) {
+    // 主机生成题目并发送给对方
+    if (mode.value === 'host' && connection.value) {
       connection.value.send({
         type: 'new-question',
         question: currentQuestion.value.question,
-        answer: currentQuestion.value.answer
+        answer: currentQuestion.value.answer,
+        questionNumber: questionNumber.value
       });
     }
   } catch (error) {
@@ -300,7 +325,7 @@ function generateNewQuestion() {
 
 // 提交答案
 function submitAnswer() {
-  if (!isGameActive.value || !localPlayerTurn.value) return;
+  if (!isGameActive.value || waitingForNextQuestion.value) return;
 
   const isCorrect = currentQuestion.value.answer.toString() === userAnswer.value;
   lastCorrectAnswer.value = currentQuestion.value.answer.toString();
@@ -312,21 +337,25 @@ function submitAnswer() {
     answerFeedback.value = 'wrong';
   }
 
+  // 标记正在等待下一题
+  waitingForNextQuestion.value = true;
+
   // 发送答题结果给对方
   if (connection.value) {
     connection.value.send({
       type: 'answer-result',
       isCorrect,
-      score: localScore.value
+      score: localScore.value,
+      questionNumber: questionNumber.value
     });
   }
 
-  // 交换回合
-  localPlayerTurn.value = false;
-
-  // 生成新题目给对方
-  generateNewQuestion();
-  userAnswer.value = '';
+  // 主机方负责生成新题目
+  if (mode.value === 'host') {
+    setTimeout(() => {
+      generateNewQuestion();
+    }, 1500);
+  }
 
   // 设置短暂的反馈后恢复
   setTimeout(() => {
@@ -338,8 +367,15 @@ function submitAnswer() {
 function startTimer() {
   clearTimerInterval();
 
+  // 确保计时器从正确的值开始
+  if (timeLeft.value <= 0) {
+    timeLeft.value = 30;
+  }
+
   timerInterval.value = window.setInterval(() => {
-    timeLeft.value--;
+    if (timeLeft.value > 0) {
+      timeLeft.value--;
+    }
 
     if (timeLeft.value <= 0) {
       clearTimerInterval();
@@ -379,6 +415,14 @@ function resetGame() {
   gameEnded.value = false;
   userAnswer.value = '';
   answerFeedback.value = 'none';
+  waitingForNextQuestion.value = false;
+  questionNumber.value = 0;
+  remoteIsAnswering.value = false;
+  waitingForSettingsAck.value = false;
+  if (timerInterval.value !== null) {
+    clearInterval(timerInterval.value);
+    timerInterval.value = null;
+  }
 }
 
 // 处理接收到的数据
@@ -389,6 +433,20 @@ function handleReceivedData(data: any) {
     case 'game-settings':
       // 接收到游戏设置
       selectedDifficulty.value = data.difficulty;
+
+      // 发送确认消息
+      if (connection.value) {
+        connection.value.send({
+          type: 'settings-ack'
+        });
+      }
+      break;
+
+    case 'settings-ack':
+      // 收到设置确认，可以开始游戏
+      if (waitingForSettingsAck.value) {
+        actuallyStartGame();
+      }
       break;
 
     case 'game-started':
@@ -405,21 +463,23 @@ function handleReceivedData(data: any) {
         question: data.question,
         answer: data.answer
       };
-      // 接收到新题目意味着轮到我方回答
-      localPlayerTurn.value = true;
+      questionNumber.value = data.questionNumber;
+      waitingForNextQuestion.value = false;
+      userAnswer.value = '';
+      answerFeedback.value = 'none';
+      remoteIsAnswering.value = false;
       break;
 
     case 'answer-result':
       // 对方答题结果
       remoteScore.value = data.score;
+      remoteIsAnswering.value = true;
+
       if (data.isCorrect) {
         showGameMessage('对方答对了!', 'info');
       } else {
         showGameMessage('对方答错了!', 'info');
       }
-      // 对方答完题后轮到我方出题
-      localPlayerTurn.value = true;
-      generateNewQuestion();
       break;
 
     case 'game-ended':
