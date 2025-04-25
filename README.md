@@ -1,22 +1,39 @@
-# ArithmaBattle
+# .
 
-基于Vue.js的心算竞技场 | 实时对战PK × 渐进式训练 ✖️ 成绩追踪 📊 使用Vue.js构建的网页端数学训练平台，融合游戏化设计，支持多难度级别、排行榜、响应式布局，适合教育与娱乐场景。通过组件化开发实现高效交互，后续计划扩展社交分享与成就系统。🚀
+This template should help get you started developing with Vue 3 in Vite.
 
-## 项目概述
-ArithmaBattle 是一款基于网页的交互式心算训练与竞技平台，旨在通过趣味PK模式提升用户的计算速度和数学能力。
+## Recommended IDE Setup
 
-核心功能：
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-- 实时对战模式（支持加减乘除运算）
-- 多难度级别适应不同年龄段用户
-- 成绩追踪系统记录进步轨迹
+## Type Support for `.vue` Imports in TS
 
-响应式设计适配各种设备
-项目特色：
-✓ 将数学练习与游戏对战完美结合
-✓ 单人训练与多人PK双模式
-✓ 竞技机制激发学习动力
-✓ 简洁直观的用户界面
-✓ 适合课堂教学或家庭娱乐
+TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
 
-无论是想提升计算能力的学生，还是喜欢数字游戏的爱好者，都能在这里找到挑战乐趣。项目采用Vue.js技术栈开发，后期计划加入社交分享和成就系统。
+## Customize configuration
+
+See [Vite Configuration Reference](https://vite.dev/config/).
+
+## Project Setup
+
+```sh
+yarn
+```
+
+### Compile and Hot-Reload for Development
+
+```sh
+yarn dev
+```
+
+### Type-Check, Compile and Minify for Production
+
+```sh
+yarn build
+```
+
+### Lint with [ESLint](https://eslint.org/)
+
+```sh
+yarn lint
+```
