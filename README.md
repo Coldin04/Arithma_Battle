@@ -36,6 +36,8 @@ ArithmaBattle 是一款基于网页的交互式心算训练与竞技平台，旨
 
 [![Demo](https://img.shields.io/badge/demo-online-green)](https://ab.co1d.in)
 
+可直接访问[https://ab.coldin.in](https://ab.co1d.in) 查看演示
+
 上述链接为演示部署版本。
 
 ## 技术栈
@@ -77,53 +79,6 @@ yarn dev
 yarn build
 ```
 
-## 项目结构
-
-```
-ArithmaBattle/
-├── public/              # 静态资源目录
-│   ├── favicon.ico      # 网站图标
-│   └── index.html       # HTML入口文件
-├── src/                 # 源代码目录
-│   ├── assets/          # 资源文件(图片、音效等)
-│   ├── components/      # 组件目录
-│   │   ├── common/      # 通用组件
-│   │   │   ├── Button.vue
-│   │   │   └── Modal.vue
-│   │   ├── game/        # 游戏相关组件
-│   │   │   ├── ProblemDisplay.vue   # 数学题目显示
-│   │   │   ├── Timer.vue            # 计时器组件
-│   │   │   ├── ScoreBoard.vue       # 得分板组件
-│   │   │   └── AnswerInput.vue      # 答案输入组件
-│   │   └── layout/      # 布局组件
-│   │       ├── Header.vue
-│   │       └── Footer.vue
-│   ├── views/           # 页面视图组件
-│   │   ├── Home.vue     # 首页
-│   │   ├── Practice.vue # 练习模式
-│   │   ├── Battle.vue   # 对战模式
-│   │   ├── Profile.vue  # 用户资料
-│   │   └── Leaderboard.vue # 排行榜
-│   ├── router/          # 路由配置
-│   │   └── index.js
-│   ├── store/           # Vuex状态管理
-│   │   ├── index.js
-│   │   └── modules/     # 状态模块
-│   │       ├── game.js
-│   │       └── user.js
-│   ├── styles/          # 全局样式文件
-│   │   ├── variables.scss
-│   │   └── global.scss
-│   ├── utils/           # 工具函数
-│   │   ├── arithmetic.js  # 数学运算生成
-│   │   └── storage.js     # 本地存储处理
-│   ├── App.vue          # 根组件
-│   └── main.js          # 应用入口
-├── .gitignore           # Git忽略配置
-├── package.json         # 项目依赖与脚本
-├── vite.config.js       # Vite配置
-└── README.md            # 项目说明文档
-```
 
 ## 功能展示
 
